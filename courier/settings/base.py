@@ -2,11 +2,11 @@ from pydantic import BaseSettings
 
 
 class Database(BaseSettings):
-    host: str
-    port: int
-    username: str
-    password: str
-    name: str
+    host: str = "localhost"
+    port: int = 5432
+    username: str = "admin"
+    password: str = ""
+    name: str = "courier"
 
     @property
     def SQLALCHEMY_DATABASE_URI(self):
