@@ -5,8 +5,13 @@ name = "pypi"
 
 [packages]
 sqlalchemy = "*"
+pydantic = "*"
+click = "*"
 
 [dev-packages]
+pytest = "*"
+tox = "*"
+coverage = "*"
 
 [requires]
 python_version = "3.9"
