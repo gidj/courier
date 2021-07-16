@@ -83,3 +83,12 @@ dist: clean ## builds source and wheel package
 
 install: clean ## install the package to the active Python's site-packages
 	python setup.py install
+
+# Migrations
+db-revision:
+	@read -p "Provide a revision message: " MESSAGE; \
+	alembic revision -m "$$MESSAGE"
+
+db-revision-autogenerate:
+	@read -p "Provide a revision message: " MESSAGE; \
+	alembic revision --autogenerate -m "$$MESSAGE"

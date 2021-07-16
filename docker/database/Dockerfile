@@ -1,0 +1,13 @@
+FROM postgres:13.3
+
+USER postgres
+
+ENV POSTGRES_DB=courier
+ENV POSTGRES_USER=courier
+ENV POSTGRES_PASSWORD=password
+ENV POSTGRES_HOST_AUTH_METHOD=trust
+
+# COPY ./assets/ /docker-entrypoint-initdb.d/
+
+ARG DOCKER_PS_DB_PORT=5432
+EXPOSE ${DOCKER_PS_DB_PORT}

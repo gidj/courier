@@ -8,6 +8,7 @@ sqlalchemy = "*"
 pydantic = "*"
 click = "*"
 psycopg2 = "*"
+alembic = "*"
 
 [dev-packages]
 pytest = "*"
