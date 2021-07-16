@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from courier.settings.local import Database
 
 engine = create_engine(
-    Database().SQLALCHEMY_DATABASE_URI, connect_args={"check_same_thread": False}
+    Database().SQLALCHEMY_DATABASE_URI
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

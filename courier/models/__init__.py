@@ -13,7 +13,7 @@ class Message(Base):
     id: uuid.UUID = Column(
         postgresql.UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
     )
-    type_: str = Column(TEXT, nullable=False)
+    type: str = Column(TEXT, nullable=False)
     body: dict = Column(postgresql.JSONB, nullable=False)
     destination: str = Column(TEXT, nullable=False)
     deliver_after: datetime = Column(DateTime, default=datetime.utcnow, nullable=False)

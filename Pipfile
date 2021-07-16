@@ -9,6 +9,8 @@ pydantic = "*"
 click = "*"
 psycopg2 = "*"
 alembic = "*"
+fastapi = "*"
+uvicorn = "*"
 
 [dev-packages]
 pytest = "*"
