@@ -1,5 +1,5 @@
 from . import base
 
 
-class Database(base.Database):
-    ...
+class Settings(base.Settings):
+    DB_HOST = "db"

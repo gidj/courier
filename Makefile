@@ -84,6 +84,18 @@ dist: clean ## builds source and wheel package
 install: clean ## install the package to the active Python's site-packages
 	python setup.py install
 
+
+lock-dependencies:
+	pipenv lock --keep-outdated --requirements > requirements.txt
+
+lock-dependencies-dev:
+	pipenv lock --keep-outdated --requirements --dev > requirements_dev.txt
+
+# Builds the db container
+.PHONY: build-api
+build-api: lock-dependencies
+	docker build --no-cache -t api:latest .; cd ..;
+
 # Migrations
 db-revision:
 	@read -p "Provide a revision message: " MESSAGE; \

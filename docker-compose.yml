@@ -6,8 +6,10 @@ services:
       driver: none
     ports:
       - "5432:5432"
-  # courier:
-  #   image: "courier"
+  api:
+    image: "api"
+    ports:
+      - "8000:8000"
   # worker:
   #   image: "courier-worker"
 
