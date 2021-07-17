@@ -1,1 +1,3 @@
-from .local import *
+from .local import Settings
+
+settings = Settings()
