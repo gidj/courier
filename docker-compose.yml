@@ -10,6 +10,9 @@ services:
     image: "api"
     ports:
       - "8000:8000"
+    environment:
+      - AWS_ACCESS_KEY_ID=random
+      - AWS_SECRET_ACCESS_KEY=rando
     volumes:
       - "${PWD}:/courier/"
   aws:

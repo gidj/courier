@@ -1,9 +1,13 @@
 from typing import List
 from fastapi import FastAPI, status
 from fastapi.param_functions import Depends
+from pydantic.main import BaseModel
 from sqlalchemy.orm.session import Session
 from courier.database import SessionLocal
+from ..sqs import get_sqs_resource, ServiceResource
+from ..services.messages import DeliveryService
 
+from ..channels import SqsChannel
 from courier.repository import messages as message_repository
 from courier import schemas
 
@@ -16,6 +20,10 @@ def get_db() -> Session:
         yield db
     finally:
         db.close()
+
+
+def get_sqs() -> ServiceResource:
+    return get_sqs_resource()
 
 
 @app.post(
@@ -31,12 +39,39 @@ def create_message(
         message.destination,
         message.deliver_after,
     )
-    message_dict = db_message.__dict__
-    print(message_dict)
-    return schemas.Message(**message_dict)
+    return db_message
 
 
 @app.get("/messages/", response_model=List[schemas.Message])
 def read_messages(db: Session = Depends(get_db)):
     messages = message_repository.get_list(db)
     return messages
+
+
+@app.post("/messages/deliver")
+def deliver_messages(
+    db: Session = Depends(get_db), sqs: ServiceResource = Depends(get_sqs)
+):
+    sqs_channel = SqsChannel(sqs)
+    deliver_service = DeliveryService(db, sqs_channel)
+    succeeded, failed = deliver_service.dispatch(10)
+    return {"succeeded": succeeded, "failed": failed}
+
+
+@app.get("/messages/receive")
+def deliver_messages(
+    db: Session = Depends(get_db), sqs: ServiceResource = Depends(get_sqs)
+):
+    sqs_channel = SqsChannel(sqs)
+    messages = sqs_channel.receive()
+    sqs_messages = [
+        (
+            message.body,
+            message.message_id,
+            message.queue_url,
+            message.attributes,
+            message.message_attributes,
+        )
+        for message in messages
+    ]
+    return {"messages": sqs_messages}

@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseSettings
 
 
@@ -18,3 +19,9 @@ class Settings(BaseSettings):
             port=self.DB_PORT,
             name=self.DB_NAME,
         )
+
+    SQS_ENDPOINT_URL: Optional[str] = "http://aws:4566"
+    SQS_REGION_NAME: Optional[str] = None
+
+    AWS_ACCESS_KEY_ID: str = ""
+    AWS_SECRET_ACCESS_KEY: str = ""
